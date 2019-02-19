@@ -1,0 +1,131 @@
+---
+title: "Shiny app tutorial for PMed"
+output: pdf_document
+---
+
+[`shiny`](https://github.com/rstudio/shiny) is a package for R to build interactive web apps, making sections of R code reactive. [Shiny](https://shiny.rstudio.com/) lets us use R to visualize data and incorportate those plots into a site.
+
+# Getting started with R
+
+1. Download an R distribution from [CRAN](https://cran.r-project.org/)
+
+2. Download [Rstudio](https://www.rstudio.com/products/rstudio/download/#download)
+    + explore [Rstudio](https://www.rstudio.com/online-learning/)
+
+# R basics for today
+
+## Packages
+
+```{r eval=FALSE}
+install.packages("shiny")
+library(shiny)
+```
+
+## File paths: Working directory
+```{r eval=FALSE}
+getwd()
+setwd([your path])
+```
+
+## Assignment
+```{r}
+x <- 5
+x
+
+x = 7
+x
+```
+
+## Vectors
+```{r}
+x <- c(4,9,1,0)
+x*3
+x[1:2]
+
+x <- c(4,"four")
+x
+```
+
+## Lists
+```{r}
+x <- list(4,"four")
+x
+x <- list(value=4, word="four")
+
+x$value
+x[[1]]
+x[["value"]]
+
+x$french <- "quatre"
+x$lower <- 1:3
+x
+
+x$lower <- seq(1,3.5,by=0.5)
+x$isFour <- TRUE
+
+x
+```
+
+# Example: shiny default
+# Old Faithful geyser in Yellowstone National Park
+
+* `File > New File > Shiny Web App ...`
+    + `shiny::runApp('first-app')`
+* Three functions:
+    + ui()
+    + server()
+    + shinyApp()
+* ui() define the inputs and displays the outputs
+* server() defines the outputs with user-modified inputs
+* shinyApp() takes both functions and excutes them, creating the web app
+* Simple example using a built in dataset `faithful`
+    + Waiting time between eruptions and the duration of the eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.
+    
+Wait what are we plotting?
+```{r}
+?faithful
+names(faithful)
+head(faithful)
+```
+
+Lets make this shiny app more interesting ...
+
+1. Change titles
+    + change x value to be more readable ($waiting instead of [,2])
+    + change plot title
+    + remove "x" label
+2. Add second histogram for second variable in dataset
+3. Add second slider bar but make it a value input
+4. Add titles to make it clear which is for which - p() vs h3()
+    + add space with br()
+5. Explore the relationship of time since last eruption and duration of eruption
+    + plot regression line
+
+```{r}
+summary(lm(eruptions ~ waiting, data=faithful))
+```
+
+
+6. Oooh it looks like there are two groups.
+    + add line to separate the two
+7. Next steps ... do ML to find the best separatrix to maximize likelihood? minimize RMSE?
+
+# Example: DDx Dashboard
+
+Let's build the DDx app from scratch
+
+# Example: PAWS
+
+Data sets from [Philadelphia Animal Welfare Society (PAWS)](https://phillypaws.org/), a non-profit rescue organization providing vet care and adoption services for stray and surrendered animals.
+
+RLadies repo forked at: [https://github.com/drscranto/2019_datathon](https://github.com/drscranto/2019_datathon)
+
+# More to learn 
+
+* Preset dashboards [`shinydashboard`](https://rstudio.github.io/shinydashboard/)
+* Read data from an s3 bucket [`aws.s3`](https://github.com/cloudyr/aws.s3)
+* Options for deploying a shiny web app 
+    + [https://www.rstudio.com/products/shiny/shiny-server/](https://www.rstudio.com/products/shiny/shiny-server/)
+    + Hosting, security, and scaling
+    + Easy deployment with [`shinyapps.io`](https://www.shinyapps.io/)
+
